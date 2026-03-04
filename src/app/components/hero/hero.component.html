@@ -1,0 +1,107 @@
+<section class="hero" id="hero">
+  <!-- BG -->
+  <div class="hero__bg">
+    <img src="https://images.unsplash.com/photo-1540202403-b7abd6747a18?w=1600&q=85" alt="Île Sainte-Marie" class="hero__bg-img"/>
+    <div class="hero__bg-overlay"></div>
+    <!-- Decorative palms svg -->
+    <div class="hero__deco-left">
+      <svg viewBox="0 0 120 300" width="120" height="300" fill="none">
+        <path d="M60 280 Q55 200 40 160 Q20 120 10 80" stroke="rgba(255,255,255,.15)" stroke-width="3"/>
+        <ellipse cx="30" cy="100" rx="35" ry="15" fill="rgba(255,255,255,.08)" transform="rotate(-20 30 100)"/>
+        <ellipse cx="15" cy="120" rx="30" ry="12" fill="rgba(255,255,255,.06)" transform="rotate(15 15 120)"/>
+      </svg>
+    </div>
+    <div class="hero__deco-right">
+      <svg viewBox="0 0 120 300" width="120" height="300" fill="none">
+        <path d="M60 280 Q65 200 80 160 Q100 120 110 80" stroke="rgba(255,255,255,.15)" stroke-width="3"/>
+        <ellipse cx="90" cy="100" rx="35" ry="15" fill="rgba(255,255,255,.08)" transform="rotate(20 90 100)"/>
+        <ellipse cx="105" cy="120" rx="30" ry="12" fill="rgba(255,255,255,.06)" transform="rotate(-15 105 120)"/>
+      </svg>
+    </div>
+    <!-- plane deco -->
+    <div class="hero__plane">✈</div>
+  </div>
+
+  <!-- Content -->
+  <div class="container hero__content">
+    <div class="hero__text">
+      <h1 class="hero__title">
+        Découvrez l'île Sainte-Marie<br>
+        <em>et profitez de sa beauté</em>
+      </h1>
+      <p class="hero__subtitle">
+        Réservez votre séjour à l'Hôtel Esperanza — bungalows, piscine,<br class="d-hide"> restaurant créole et activités nautiques.
+      </p>
+    </div>
+
+    <!-- Search Widget -->
+    <div class="search-widget">
+      <!-- Tabs -->
+      <div class="search-widget__tabs">
+        @for (tab of tabs; track tab.key) {
+          <button class="search-widget__tab"
+                  [class.active]="activeTab() === tab.key"
+                  (click)="activeTab.set(tab.key)">
+            <span>{{ tab.icon }}</span> {{ tab.label }}
+          </button>
+        }
+      </div>
+
+      <!-- Form -->
+      <div class="search-widget__form">
+        <div class="search-field">
+          <label>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+            </svg>
+            Destination
+          </label>
+          <input [(ngModel)]="search.destination" placeholder="Où voulez-vous aller ?" />
+        </div>
+
+        <div class="search-field__divider"></div>
+
+        <div class="search-field">
+          <label>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+            Arrivée
+          </label>
+          <input type="date" [(ngModel)]="search.checkin" />
+        </div>
+
+        <div class="search-field__divider"></div>
+
+        <div class="search-field">
+          <label>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+            Départ
+          </label>
+          <input type="date" [(ngModel)]="search.checkout" />
+        </div>
+
+        <div class="search-field__divider"></div>
+
+        <div class="search-field">
+          <label>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+            Voyageurs
+          </label>
+          <input [(ngModel)]="search.guests" placeholder="1 Chambre, 2 Voyageurs" />
+        </div>
+
+        <button class="search-widget__btn" (click)="doSearch()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          </svg>
+          Rechercher
+        </button>
+      </div>
+    </div>
+  </div>
+</section>

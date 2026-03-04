@@ -1,0 +1,36 @@
+<section class="adventure" id="adventure">
+  <div class="container">
+    <div class="adventure__head">
+      <h2 class="sec-title">Partez à l'aventure !</h2>
+      <p class="sec-label" style="margin-top:6px">Réservez et vivez une expérience unique</p>
+    </div>
+
+    <div class="adventure__slider">
+      @for (adv of adventures; track adv.city; let i = $index) {
+        <div class="adv-card" [class.active]="current() === i"
+             (click)="current.set(i)">
+          <div class="adv-card__img-wrap">
+            <img [src]="adv.image" [alt]="adv.label" class="adv-card__img"
+                 (error)="onImgError($event, adv.fallback)" loading="lazy"/>
+            <div class="adv-card__overlay"></div>
+          </div>
+          <p class="adv-card__city">{{ adv.city }}</p>
+        </div>
+      }
+    </div>
+
+    <!-- Nav arrows -->
+    <div class="adventure__nav">
+      <button class="adv-nav-btn" (click)="prev()" aria-label="Précédent">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M15 18l-6-6 6-6"/>
+        </svg>
+      </button>
+      <button class="adv-nav-btn" (click)="next()" aria-label="Suivant">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M9 18l6-6-6-6"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</section>

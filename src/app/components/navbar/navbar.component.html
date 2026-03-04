@@ -1,0 +1,40 @@
+<header class="navbar" [class.scrolled]="scrolled()">
+  <div class="container navbar__inner">
+    <!-- Logo -->
+    <a class="navbar__logo" (click)="go('#hero')">
+      <div class="navbar__logo-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <path d="M12 2C12 2 5 8 5 14a7 7 0 0 0 14 0C19 8 12 2 12 2z" fill="white" opacity=".9"/>
+          <path d="M8 17s2-2.5 4-2.5 4 2.5 4 2.5" stroke="rgba(255,255,255,.6)" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <span class="navbar__logo-text">Esperanza</span>
+    </a>
+
+    <!-- Nav links -->
+    <nav class="navbar__nav">
+      @for (link of navLinks; track link.label) {
+        <button class="navbar__link" (click)="go(link.anchor)">{{ link.label }}</button>
+      }
+    </nav>
+
+    <!-- Actions -->
+    <div class="navbar__actions">
+      <button class="navbar__signin" (click)="go('#contact')">Connexion</button>
+      <button class="btn-primary navbar__signup" (click)="reserve.emit()">Réserver</button>
+      <button class="navbar__burger" (click)="toggleMenu()" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  @if (menuOpen()) {
+    <div class="navbar__mobile">
+      @for (link of navLinks; track link.label) {
+        <button (click)="go(link.anchor)">{{ link.label }}</button>
+      }
+      <button class="btn-primary" style="justify-content:center" (click)="reserve.emit(); toggleMenu()">Réserver</button>
+    </div>
+  }
+</header>

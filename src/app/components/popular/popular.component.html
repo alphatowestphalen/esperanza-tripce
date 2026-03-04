@@ -1,0 +1,41 @@
+<section class="popular" id="popular">
+  <div class="container">
+    <div class="popular__head">
+      <div>
+        <p class="sec-label">Découvrez nos espaces</p>
+        <h2 class="sec-title">Espaces Populaires</h2>
+        <p class="sec-label" style="margin-top:4px">Profitez de nos installations au bord de l'océan Indien</p>
+      </div>
+      <p class="sec-desc">
+        Chaque coin de l'Hôtel Esperanza est conçu pour vous offrir la meilleure expérience tropicale sur l'île Sainte-Marie.
+      </p>
+    </div>
+
+    <div class="popular__grid">
+      @for (place of places; track place.id) {
+        <div class="place-card card">
+          <div class="place-card__img-wrap">
+            <span class="disc-badge">{{ place.discount }}</span>
+            <img [src]="place.image" [alt]="place.name" class="place-card__img"
+                 (error)="onImgError($event, place.localImage)" loading="lazy"/>
+            <button class="place-card__heart" aria-label="Favoris">♡</button>
+          </div>
+          <div class="place-card__body">
+            <h3 class="place-card__name">{{ place.name }}</h3>
+            <p class="place-card__location">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+              </svg>
+              {{ place.location }}
+            </p>
+            <div class="place-card__footer">
+              <div class="place-card__rating">
+                <span class="star">★</span> {{ place.rating }}
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>

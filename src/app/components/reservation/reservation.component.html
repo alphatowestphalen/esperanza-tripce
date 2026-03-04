@@ -1,0 +1,307 @@
+@if (open) {
+  <!-- Backdrop -->
+  <div class="modal-backdrop" (click)="close()"></div>
+
+  <!-- Modal -->
+  <div class="modal" role="dialog" aria-modal="true" aria-label="Réservation">
+    <div class="modal__inner">
+
+      <!-- Header -->
+      <div class="modal__header">
+        <div class="modal__logo">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2C12 2 5 8 5 14a7 7 0 0 0 14 0C19 8 12 2 12 2z" fill="#0099cc" opacity=".9"/>
+          </svg>
+          <span>Hôtel Esperanza</span>
+        </div>
+        <button class="modal__close" (click)="close()" aria-label="Fermer">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M18 6L6 18M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Success state -->
+      @if (submitted()) {
+        <div class="modal__success">
+          <div class="modal__success-icon">
+            <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+              <circle cx="18" cy="18" r="18" fill="#e6f7ff"/>
+              <path d="M10 18L15.5 23.5L26 12" stroke="#0099cc" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3>Demande envoyée ! 🎉</h3>
+          <p>Merci <strong>{{ form.nom }}</strong>, votre demande de réservation a bien été reçue.</p>
+          @if (error() === 'demo') {
+            <div class="modal__demo-note">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+              <span>Votre client email s'est ouvert avec toutes les informations prêtes à envoyer vers <strong>alphato407&#64;gmail.com</strong>. Pour l'envoi 100% automatique, configurez Formspree (voir <code>SETUP_EMAIL.md</code>).</span>
+            </div>
+          }
+          <div class="modal__recap">
+            <p>📅 {{ formatDate(form.arrivee) }} → {{ formatDate(form.depart) }}</p>
+            <p>🏠 {{ selectedRoom?.label }}</p>
+            @if (total > 0) { <p>💰 Estimation : <strong>{{ total }}€</strong></p> }
+          </div>
+          <p class="modal__success-sub">Nous vous contacterons dans les 24h à <strong>{{ form.email }}</strong> et <strong>{{ form.telephone }}</strong>.</p>
+          <button class="btn-primary" style="margin-top:20px;width:100%;justify-content:center" (click)="close()">Fermer</button>
+        </div>
+
+      } @else {
+        <!-- Progress bar -->
+        <div class="modal__progress">
+          @for (s of [1,2,3]; track s) {
+            <div class="prog-step" [class.active]="step() >= s" [class.current]="step() === s">
+              <div class="prog-step__dot">{{ s }}</div>
+              <span class="prog-step__label">
+                @switch(s) {
+                  @case(1) { Vos infos }
+                  @case(2) { Séjour }
+                  @case(3) { Confirmation }
+                }
+              </span>
+            </div>
+            @if (s < 3) { <div class="prog-line" [class.done]="step() > s"></div> }
+          }
+        </div>
+
+        <!-- STEP 1 — Coordonnées -->
+        @if (step() === 1) {
+          <div class="modal__step">
+            <h2 class="modal__step-title">Vos coordonnées</h2>
+            <p class="modal__step-sub">Nous vous contacterons pour confirmer votre réservation</p>
+
+            <div class="form-grid">
+              <div class="form-field form-field--full">
+                <label>Nom complet *</label>
+                <div class="form-input-wrap">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                  </svg>
+                  <input type="text" [(ngModel)]="form.nom" placeholder="Jean Dupont" required/>
+                </div>
+              </div>
+
+              <div class="form-field">
+                <label>Email *</label>
+                <div class="form-input-wrap">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                    <polyline points="22,6 12,13 2,6"/>
+                  </svg>
+                  <input type="email" [(ngModel)]="form.email" placeholder="jean@email.com" required/>
+                </div>
+              </div>
+
+              <div class="form-field">
+                <label>Téléphone / WhatsApp *</label>
+                <div class="form-input-wrap">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.53 2 2 0 0 1 3.6 1.37h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                  </svg>
+                  <input type="tel" [(ngModel)]="form.telephone" placeholder="+261 34 00 000 00" required/>
+                </div>
+              </div>
+
+              <div class="form-field form-field--full">
+                <label>Message / Demandes spéciales</label>
+                <textarea [(ngModel)]="form.message" rows="3"
+                  placeholder="Indiquez vos préférences : vue mer, lit king-size, anniversaire, allergie..."></textarea>
+              </div>
+            </div>
+          </div>
+        }
+
+        <!-- STEP 2 — Séjour -->
+        @if (step() === 2) {
+          <div class="modal__step">
+            <h2 class="modal__step-title">Votre séjour</h2>
+            <p class="modal__step-sub">Choisissez vos dates et votre hébergement</p>
+
+            <!-- Room cards -->
+            <div class="room-select">
+              @for (room of rooms; track room.key) {
+                <div class="room-option" [class.selected]="form.chambre === room.key"
+                     (click)="form.chambre = room.key">
+                  <div class="room-option__check">
+                    @if (form.chambre === room.key) {
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <path d="M2 7L5.5 10.5L12 3.5" stroke="#0099cc" stroke-width="2" stroke-linecap="round"/>
+                      </svg>
+                    }
+                  </div>
+                  <div class="room-option__info">
+                    <strong>{{ room.label }}</strong>
+                    <span>{{ room.capacity }}</span>
+                  </div>
+                  <div class="room-option__price">
+                    {{ room.price }}€<small>/nuit</small>
+                  </div>
+                </div>
+              }
+            </div>
+
+            <div class="form-grid" style="margin-top:20px">
+              <div class="form-field">
+                <label>Date d'arrivée *</label>
+                <div class="form-input-wrap">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+                  </svg>
+                  <input type="date" [(ngModel)]="form.arrivee" [min]="today"/>
+                </div>
+              </div>
+
+              <div class="form-field">
+                <label>Date de départ *</label>
+                <div class="form-input-wrap">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+                  </svg>
+                  <input type="date" [(ngModel)]="form.depart" [min]="form.arrivee || today"/>
+                </div>
+              </div>
+
+              <div class="form-field form-field--full">
+                <label>Nombre de personnes</label>
+                <div class="guests-select">
+                  @for (n of ['1','2','3','4','5+']; track n) {
+                    <button class="guest-btn" [class.active]="form.personnes === n"
+                            (click)="form.personnes = n">{{ n }}</button>
+                  }
+                </div>
+              </div>
+            </div>
+
+            <!-- Price estimate -->
+            @if (nights > 0 && selectedRoom) {
+              <div class="price-estimate">
+                <div class="price-estimate__row">
+                  <span>{{ selectedRoom.label }}</span>
+                  <span>{{ selectedRoom.price }}€/nuit</span>
+                </div>
+                <div class="price-estimate__row">
+                  <span>Nombre de nuits</span>
+                  <span>× {{ nights }}</span>
+                </div>
+                <div class="price-estimate__row price-estimate__total">
+                  <span>Total estimé</span>
+                  <strong>{{ total }}€</strong>
+                </div>
+                <p class="price-estimate__note">* Prix indicatif — confirmation par email</p>
+              </div>
+            }
+          </div>
+        }
+
+        <!-- STEP 3 — Confirmation -->
+        @if (step() === 3) {
+          <div class="modal__step">
+            <h2 class="modal__step-title">Confirmation</h2>
+            <p class="modal__step-sub">Vérifiez votre réservation avant d'envoyer</p>
+
+            <div class="confirm-card">
+              <div class="confirm-card__header">
+                <div class="confirm-card__hotel">
+                  <strong>🌴 Hôtel Esperanza</strong>
+                  <span>Île Sainte-Marie, Madagascar</span>
+                </div>
+                <div class="confirm-card__badge">Réservation</div>
+              </div>
+
+              <div class="confirm-rows">
+                <div class="confirm-row">
+                  <span>👤 Voyageur</span>
+                  <strong>{{ form.nom }}</strong>
+                </div>
+                <div class="confirm-row">
+                  <span>📧 Email</span>
+                  <strong>{{ form.email }}</strong>
+                </div>
+                <div class="confirm-row">
+                  <span>📱 Téléphone</span>
+                  <strong>{{ form.telephone }}</strong>
+                </div>
+                <div class="confirm-row">
+                  <span>🏠 Hébergement</span>
+                  <strong>{{ selectedRoom?.label || '—' }}</strong>
+                </div>
+                <div class="confirm-row">
+                  <span>📅 Arrivée</span>
+                  <strong>{{ formatDate(form.arrivee) }}</strong>
+                </div>
+                <div class="confirm-row">
+                  <span>📅 Départ</span>
+                  <strong>{{ formatDate(form.depart) }}</strong>
+                </div>
+                <div class="confirm-row">
+                  <span>👥 Personnes</span>
+                  <strong>{{ form.personnes }}</strong>
+                </div>
+                @if (form.message) {
+                  <div class="confirm-row">
+                    <span>💬 Message</span>
+                    <strong>{{ form.message }}</strong>
+                  </div>
+                }
+              </div>
+
+              @if (total > 0) {
+                <div class="confirm-total">
+                  <span>Estimation totale ({{ nights }} nuits)</span>
+                  <strong>{{ total }}€</strong>
+                </div>
+              }
+
+              <div class="confirm-dest">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                  <polyline points="22,6 12,13 2,6"/>
+                </svg>
+                Votre demande sera envoyée à <strong>alphato407&#64;gmail.com</strong>
+              </div>
+            </div>
+          </div>
+        }
+
+        <!-- Footer actions -->
+        <div class="modal__actions">
+          @if (step() > 1) {
+            <button class="btn-outline" (click)="prevStep()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+              </svg>
+              Retour
+            </button>
+          } @else {
+            <div></div>
+          }
+
+          @if (step() < 3) {
+            <button class="btn-primary"
+                    [disabled]="(step() === 1 && !step1Valid) || (step() === 2 && !step2Valid)"
+                    (click)="nextStep()">
+              Continuer
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </button>
+          } @else {
+            <button class="btn-primary btn-send" [disabled]="sending()" (click)="submit()">
+              @if (sending()) {
+                <span class="spinner"></span> Envoi en cours...
+              } @else {
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                </svg>
+                Envoyer la réservation
+              }
+            </button>
+          }
+        </div>
+      }
+    </div>
+  </div>
+}

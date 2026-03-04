@@ -1,0 +1,121 @@
+/* =====================================================
+   HÔTEL ESPERANZA — Design Tripce adapté
+   Clean · Modern · Teal/Cyan palette
+   ===================================================== */
+
+$font-head: 'Poppins', sans-serif;
+$font-body: 'Nunito', sans-serif;
+
+// Palette (matching Tripce teal+white design)
+$teal:        #0099cc;
+$teal-dark:   #007aaa;
+$teal-light:  #e6f7ff;
+$teal-mid:    #33b5d9;
+$cyan-bg:     #f0fbff;
+$dark:        #1a2b3c;
+$dark-mid:    #2d4a62;
+$gray:        #6b7f93;
+$gray-light:  #f4f7fa;
+$gray-border: #e8eef4;
+$white:       #ffffff;
+$green:       #22c55e;
+$orange:      #f59e0b;
+$red:         #ef4444;
+
+:root {
+  --teal:       #{$teal};
+  --teal-dark:  #{$teal-dark};
+  --dark:       #{$dark};
+  --gray:       #{$gray};
+  --white:      #{$white};
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: $font-body;
+  color: $dark;
+  background: $white;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+a { text-decoration: none; color: inherit; transition: color .2s; }
+img { max-width: 100%; display: block; }
+ul { list-style: none; }
+button { cursor: pointer; border: none; background: none; font-family: $font-body; }
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  @media (max-width: 768px) { padding: 0 16px; }
+}
+
+// Section title pattern (matching maquette)
+.sec-label  { font-size: 14px; color: $gray; margin-bottom: 6px; }
+.sec-title  { font-family: $font-head; font-size: clamp(22px,3vw,32px); font-weight: 700; color: $dark; line-height: 1.25; }
+.sec-desc   { font-size: 14px; color: $gray; line-height: 1.7; max-width: 420px; }
+
+// Buttons
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 11px 24px; background: $teal; color: $white;
+  font-size: 14px; font-weight: 600; border-radius: 8px;
+  transition: all .25s ease;
+  &:hover { background: $teal-dark; transform: translateY(-1px); box-shadow: 0 6px 20px rgba($teal,.35); }
+}
+.btn-outline {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 22px; background: transparent; color: $teal;
+  border: 1.5px solid $teal; font-size: 14px; font-weight: 600; border-radius: 8px;
+  transition: all .25s;
+  &:hover { background: $teal; color: $white; }
+}
+.btn-white {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 22px; background: $white; color: $dark;
+  font-size: 14px; font-weight: 600; border-radius: 8px;
+  transition: all .25s;
+  &:hover { background: $teal; color: $white; }
+}
+
+// Rating star badge
+.rating-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: $white; border-radius: 6px; padding: 3px 8px;
+  font-size: 12px; font-weight: 700; color: $dark;
+  box-shadow: 0 2px 8px rgba(0,0,0,.12);
+  .star { color: $orange; font-size: 11px; }
+}
+
+// Discount badge
+.disc-badge {
+  position: absolute; top: 10px; left: 10px; z-index: 2;
+  background: $teal; color: $white; font-size: 11px; font-weight: 700;
+  padding: 3px 8px; border-radius: 4px;
+}
+
+// Card base
+.card {
+  background: $white; border-radius: 14px;
+  overflow: hidden; transition: all .3s ease;
+  box-shadow: 0 2px 12px rgba(0,0,0,.07);
+  &:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,.13); }
+}
+
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: $gray-light; }
+::-webkit-scrollbar-thumb { background: $teal; border-radius: 3px; }
+
+@keyframes fadeInUp {
+  from { opacity:0; transform:translateY(24px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity:0; } to { opacity:1; }
+}
+@keyframes float {
+  0%,100% { transform:translateY(0); }
+  50%      { transform:translateY(-8px); }
+}

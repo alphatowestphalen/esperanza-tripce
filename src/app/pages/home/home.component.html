@@ -1,0 +1,19 @@
+<app-navbar (reserve)="openModal()"></app-navbar>
+
+<main>
+  <app-hero (reserve)="openModal($event)"></app-hero>
+  <app-popular (reserve)="openModal($event)"></app-popular>
+  <app-features (reserve)="openModal()"></app-features>
+  <app-explore (reserve)="openModal($event)"></app-explore>
+  <app-adventure (reserve)="openModal()"></app-adventure>
+  <app-booking (reserve)="openModal()"></app-booking>
+</main>
+
+<app-footer (reserve)="openModal()"></app-footer>
+
+<!-- Global reservation modal -->
+<app-reservation
+  [open]="modalOpen()"
+  [preselectedRoom]="preselectedRoom()"
+  (closed)="closeModal()">
+</app-reservation>

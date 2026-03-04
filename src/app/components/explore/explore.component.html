@@ -1,0 +1,75 @@
+<section class="explore" id="explore">
+  <div class="container">
+    <div class="explore__head">
+      <div>
+        <h2 class="sec-title">Explorer davantage</h2>
+        <p class="sec-label" style="margin-top:6px">Partez à l'aventure sur l'île Sainte-Marie</p>
+      </div>
+      <p class="sec-desc">
+        Des séjours tout inclus, des activités nautiques et des vols depuis Antananarivo. Plus de 12 types d'expériences à découvrir.
+      </p>
+    </div>
+
+    <!-- Filter tabs -->
+    <div class="explore__filters">
+      @for (f of filters; track f.key) {
+        <button class="explore__filter" [class.active]="activeFilter() === f.key"
+                (click)="activeFilter.set(f.key); showAll.set(false)">
+          {{ f.label }}
+        </button>
+      }
+      <button class="explore__filter-icon" aria-label="Filtres avancés">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/>
+        </svg>
+        Filtres
+      </button>
+    </div>
+
+    <!-- Destination cards grid -->
+    <div class="explore__grid">
+      @for (dest of filtered; track dest.id) {
+        <div class="dest-card card">
+          <div class="dest-card__img-wrap">
+            <span class="rating-badge dest-card__rating">
+              <span class="star">★</span> {{ dest.rating }}
+            </span>
+            <img [src]="dest.image" [alt]="dest.name" class="dest-card__img"
+                 (error)="onImgError($event, dest.fallback)" loading="lazy"/>
+            <button class="dest-card__heart" aria-label="Favoris">♡</button>
+          </div>
+          <div class="dest-card__body">
+            <h3 class="dest-card__name">{{ dest.name }}</h3>
+            <p class="dest-card__location">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+              </svg>
+              {{ dest.location }}
+            </p>
+            <div class="dest-card__footer">
+              <div class="dest-card__price">
+                @if (dest.price > 0) {
+                  <strong>{{ dest.price }}€</strong><span>{{ dest.unit }}</span>
+                } @else {
+                  <strong class="free">{{ dest.unit }}</strong>
+                }
+              </div>
+              <button class="dest-card__btn" (click)="reserve.emit(dest.category)">Réserver</button>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+
+    @if (hasMore) {
+      <div class="explore__more">
+        <button class="btn-outline" (click)="showAll.set(true)">
+          Afficher plus
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 5v14M5 12l7 7 7-7"/>
+          </svg>
+        </button>
+      </div>
+    }
+  </div>
+</section>

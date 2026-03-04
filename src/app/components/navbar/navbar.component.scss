@@ -1,0 +1,87 @@
+.navbar {
+  position: fixed; inset: 0 0 auto;
+  z-index: 1000;
+  padding: 14px 0;
+  transition: all .35s ease;
+
+  &.scrolled {
+    background: #fff;
+    box-shadow: 0 2px 20px rgba(0,0,0,.08);
+    .navbar__link { color: #1a2b3c; }
+    .navbar__signin { color: #1a2b3c; }
+    .navbar__logo-text { color: #0099cc; }
+    .navbar__logo-icon { background: #0099cc; }
+    .navbar__burger span { background: #1a2b3c; }
+  }
+
+  &__inner {
+    display: flex; align-items: center; gap: 32px;
+  }
+
+  &__logo {
+    display: flex; align-items: center; gap: 8px;
+    cursor: pointer; flex-shrink: 0;
+  }
+  &__logo-icon {
+    width: 34px; height: 34px; border-radius: 8px;
+    background: rgba(255,255,255,.25);
+    display: flex; align-items: center; justify-content: center;
+    transition: background .3s;
+  }
+  &__logo-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px; font-weight: 700;
+    color: #fff; transition: color .3s;
+  }
+
+  &__nav {
+    display: flex; gap: 4px; margin: 0 auto;
+    @media (max-width: 768px) { display: none; }
+  }
+  &__link {
+    padding: 8px 16px;
+    font-size: 14px; font-weight: 600;
+    color: rgba(255,255,255,.9);
+    border-radius: 8px;
+    transition: all .2s;
+    &:hover { background: rgba(255,255,255,.15); color: #fff; }
+  }
+
+  &__actions {
+    display: flex; align-items: center; gap: 12px; flex-shrink: 0;
+  }
+  &__signin {
+    font-size: 14px; font-weight: 600;
+    color: rgba(255,255,255,.9);
+    padding: 8px 14px; border-radius: 8px;
+    transition: all .2s;
+    &:hover { background: rgba(255,255,255,.15); }
+    @media (max-width: 600px) { display: none; }
+  }
+  &__signup {
+    @media (max-width: 600px) { display: none; }
+  }
+  &__burger {
+    display: none; flex-direction: column; gap: 5px; padding: 4px;
+    @media (max-width: 768px) { display: flex; }
+    span {
+      display: block; width: 22px; height: 2px;
+      background: rgba(255,255,255,.9); border-radius: 2px;
+      transition: background .3s;
+    }
+  }
+
+  &__mobile {
+    background: #fff; padding: 16px 24px 20px;
+    display: flex; flex-direction: column; gap: 4px;
+    animation: fadeIn .2s ease;
+    button {
+      font-size: 15px; font-weight: 600; color: #1a2b3c;
+      text-align: left; padding: 10px 8px;
+      border-bottom: 1px solid #f0f4f8;
+      &:last-child { border: none; margin-top: 8px; }
+      &:hover { color: #0099cc; }
+    }
+  }
+}
+@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }

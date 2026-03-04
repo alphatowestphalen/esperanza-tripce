@@ -1,0 +1,29 @@
+<section class="booking" id="contact">
+  <!-- CTA Banner -->
+  <div class="booking__cta">
+    <div class="container booking__cta-inner">
+      <h2 class="booking__cta-title">Réservez et partez maintenant !</h2>
+      <button class="btn-white" (click)="reserve.emit('')">
+        Réserver
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Video/image panoramic -->
+  <div class="booking__media">
+    <img src="assets/images/gallery/piscine-05.jpg"
+         alt="Vue panoramique Hôtel Esperanza"
+         (error)="onImgError($event)"
+         class="booking__media-img"/>
+    <div class="booking__media-overlay">
+      <button class="booking__play" aria-label="Voir la vidéo">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+          <polygon points="5 3 19 12 5 21 5 3"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</section>

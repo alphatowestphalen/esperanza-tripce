@@ -1,0 +1,55 @@
+<section class="features" id="features">
+  <div class="container features__inner">
+    <!-- Left: steps -->
+    <div class="features__left">
+      <p class="sec-label">Pourquoi nous choisir</p>
+      <h2 class="sec-title">Des souvenirs inoubliables<br>à Sainte-Marie</h2>
+      <p class="sec-label" style="margin-top:6px">Des expériences qui s'adaptent à votre style de vie</p>
+
+      <div class="features__steps">
+        @for (step of steps; track step.num) {
+          <div class="feat-step">
+            <div class="feat-step__num">{{ step.num }}</div>
+            <div class="feat-step__content">
+              <h3 class="feat-step__title">{{ step.title }}</h3>
+              <p class="feat-step__desc">{{ step.desc }}</p>
+            </div>
+          </div>
+        }
+      </div>
+
+      <button class="btn-primary" style="margin-top:32px"
+              (click)="reserve.emit('')">
+        Explorer nos offres
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Right: image + floating review cards -->
+    <div class="features__right">
+      <div class="features__img-wrap">
+        <img src="assets/images/gallery/piscine-02.jpg"
+             alt="Piscine Hôtel Esperanza"
+             (error)="onImgError($event)"
+             class="features__img"/>
+        <!-- Floating review cards -->
+        @for (rev of reviews; track rev.name; let i = $index) {
+          <div class="rev-card" [class]="'rev-card--' + (i+1)">
+            <div class="rev-card__avatar">{{ rev.avatar }}</div>
+            <div class="rev-card__info">
+              <p class="rev-card__name">{{ rev.name }}</p>
+              <div class="rev-card__stars">
+                @for (s of [1,2,3,4,5]; track s) {
+                  <span [style.color]="s <= rev.rating ? '#f59e0b' : '#ddd'">★</span>
+                }
+              </div>
+            </div>
+            <span class="rev-card__score">{{ rev.rating }}</span>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</section>
